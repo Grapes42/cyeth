@@ -11,7 +11,7 @@ struct Coord{
 class Graphing {
     public:
         Graphing(int height, int width);
-        array< Coord, 2 >& line();
+        array< Coord, 2 >& line(Coord a, Coord b);
 };
 
 Graphing::Graphing(int height, int width) {
@@ -21,25 +21,10 @@ Graphing::Graphing(int height, int width) {
     int screen_arr[height][width];
 }
 
-array< Coord, 2 >& Graphing::line() {
-    Coord a;
-    Coord b;
+array< Coord, 2 >& Graphing::line(Coord a, Coord b) {
 
     array< Coord, 2 > arr = {a, b};
 
     array< Coord, 2 >& ref = arr;
     return ref;
 }
-
-/*
-Coord& Graphing::line() {
-    Coord coord;
-
-    coord.y = 1;
-    coord.x = 1;
-    coord.z = 1;
-
-    Coord& ref = coord;
-    return ref;
-}
-*/
