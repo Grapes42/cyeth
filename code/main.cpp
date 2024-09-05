@@ -1,5 +1,5 @@
 #include <iostream>
-#include <array>
+#include <vector>
 #include "graphing.h"
 using namespace std;
 
@@ -9,7 +9,17 @@ int main() {
     Coord a;
     Coord b;
 
-    array< Coord, 2 > arr = graphing.line(a, b);
+    a.y = -1;
+    a.x = -1;
 
-    cout << arr[0].x << endl;
+    b.y = 1;
+    a.x = 1;
+
+    vector<Coord> line = graphing.line(a, b);
+
+    /*
+    cout << line[0].y << endl
+         << line[0].x << endl
+         << line[0].z << endl;
+    */
 }

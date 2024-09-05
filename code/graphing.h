@@ -1,5 +1,5 @@
 #include <iostream>
-#include <array>
+#include <vector>
 using namespace std;
 
 struct Coord{
@@ -11,20 +11,27 @@ struct Coord{
 class Graphing {
     public:
         Graphing(int height, int width);
-        array< Coord, 2 >& line(Coord a, Coord b);
+        vector<Coord> line(Coord a, Coord b);
 };
 
 Graphing::Graphing(int height, int width) {
     height = height;
     width = width;
-
-    int screen_arr[height][width];
 }
 
-array< Coord, 2 >& Graphing::line(Coord a, Coord b) {
+vector<Coord> Graphing::line(Coord a, Coord b) {
+    double rise = a.y - b.y;
+    double run = a.x - b.x;
 
-    array< Coord, 2 > arr = {a, b};
+    if (run != 0) {
+        double gradient = rise/run;
 
-    array< Coord, 2 >& ref = arr;
-    return ref;
+        cout << gradient << endl; 
+    }
+
+
+
+    vector<Coord> line = {a, b};
+    return line;
 }
+
