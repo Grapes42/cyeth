@@ -1,21 +1,22 @@
 #include <iostream>
 #include <vector>
 #include "graphing.h"
-using namespace std;
+#include "screen.h"
 
-void print_arr(int height, int width);
+void print_arr(char arr[5][5], int height, int width);
 
 int main() {
-    Graphing graphing(10, 10);
+    int height = 10;
+    int width = 10;
 
-    char screen[5][5] = {
-        {' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' '}
-    };
+    Graphing graphing(height, width);
+    Screen screen(height, width);
 
+    screen.clear();
+    screen.print();
+
+
+    /*
     Coord a;
     Coord b;
 
@@ -26,7 +27,7 @@ int main() {
     b.x = 1;
 
     vector<Coord> line = graphing.line(a, b);
-
+    */
 
 
     /*
@@ -37,6 +38,11 @@ int main() {
 }
 
 
-void print_arr(int height, int width) {
-    
+void print_arr(char arr[5][5], int height, int width) {
+    for (int y=height-1; y >= 0; y--) {
+        for (int x=width-1; x >= 0; x--) {
+            std::cout << arr[y][x];
+        }
+        std::cout << endl;
+    }
 }

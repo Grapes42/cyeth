@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-struct Coord{
+struct Coord {
     int y = 0;
     int x = 0;
     int z = 0;
