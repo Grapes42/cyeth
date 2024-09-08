@@ -12,7 +12,7 @@ int main() {
     Graphing graphing(height, width);
     Screen screen(height, width);
 
-    screen.clear();
+    //screen.clear();
     screen.print();
 
 
