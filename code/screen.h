@@ -54,9 +54,5 @@ void Screen::write(std::vector<Coord> coords, std::vector<char> chars) {
         int z = round(magic_num * coord.z - min_depth);
         std::cout << "z" << z << std::endl;
         arr[coord.y][coord.x] = chars[z];
-
-        if (z == -1) {
-            arr[coord.y][coord.x] = 'z';
-        }
     }
 }

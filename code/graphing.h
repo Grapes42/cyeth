@@ -8,14 +8,15 @@ struct Coord {
     double z = 0;
 };
 
-struct Order {
-    Coord pos;
-    Coord end;
+enum Axis {
+    y,
+    x
 };
 
 class Graphing {
     private:
-        Order get_order(Coord a, Coord b, double a_val, double b_val);
+        void add_coord(std::vector<Coord> &coords, Coord pos);
+        void order_first(Coord &a, Coord &b, Axis axis);
     public:
         Graphing(int height, int width);
         std::vector<Coord> line(Coord a, Coord b, double step_size);
@@ -26,19 +27,31 @@ Graphing::Graphing(int height, int width) {
     width = width;
 }
 
-Order Graphing::get_order(Coord a, Coord b, double a_val, double b_val) {
-    Order order;
-    
-    if (a_val < b_val) {
-        order.pos = a;
-        order.end = b;
-    }
-    else {
-        order.pos = b;
-        order.end = a;
+void Graphing::add_coord(std::vector<Coord> &coords, Coord pos) {
+    Coord rounded = {round(pos.y), round(pos.x), round(pos.z)};
+    coords.push_back(rounded);
+}
+
+void Graphing::order_first(Coord &a, Coord &b, Axis axis) {
+    bool swap = false;
+    switch (axis) {
+        case y:
+            if (a.y > b.y) {
+                swap = true;
+            }
+            break;
+        case x:
+            if (a.x > b.x) {
+                swap = true;
+            }
+            break;
     }
 
-    return order;
+    if (swap) {
+        Coord old_a = a;
+        a = b;
+        b = old_a;
+    }
 }
 
 std::vector<Coord> Graphing::line(Coord a, Coord b, double step_size) {
@@ -46,52 +59,42 @@ std::vector<Coord> Graphing::line(Coord a, Coord b, double step_size) {
     double run = a.x - b.x;
 
     std::vector<Coord> coords;
-    
-    if (run != 0) { // If no division by 0
-        double gradient = rise/run;
 
+    if (run != 0) {
+        double gradient = rise/run;
         double grad_abs = abs(gradient);
 
-        if (grad_abs <= 1) { // If the line is 45 degrees or less
-            Order order = get_order(a, b, a.x, b.x);
+        if (grad_abs <= 1) {
+            order_first(a, b, x);
 
-            while (order.pos.x < order.end.x) {
-                Coord coord;
-                coord.x = round(order.pos.x);
-                coord.y = round(order.pos.y);
-                coords.push_back(coord);
-
-                order.pos.x += step_size;
-                order.pos.y += step_size * gradient;
+            while (a.x < b.x) {
+                add_coord(coords, a);
+                a.x += step_size;
+                a.y += step_size * gradient;
             }
         }
-        else { // If the line is above 45 degrees
-            Order order = get_order(a, b, a.y, b.y);
+        else {
+            order_first(a, b, y);
 
-            while (order.pos.y < order.end.y) {
-                Coord coord;
-                coord.x = round(order.pos.x);
-                coord.y = round(order.pos.y);
-                coords.push_back(coord);
-
-                order.pos.y += step_size;
-                order.pos.x += step_size / gradient;
+            while (a.y < b.y) {
+                add_coord(coords, a);
+                a.y += step_size;
+                a.x += step_size / gradient;
             }
         }
-
-    
     }
     else {
-        Order order = get_order(a, b, a.y, b.y);
+        order_first(a, b, y);
 
-        while (order.pos.y < order.end.y) {
-            Coord coord;
-            coord.x = round(order.pos.x);
-            coord.y = round(order.pos.y);
-            coords.push_back(coord);
-
-            order.pos.y += step_size;
+        while (a.y < b.y) {
+            add_coord(coords, a);
+            a.y += step_size;
         }
+    }
+
+    std::cout << "coords" << std::endl;
+    for (Coord coord : coords) {
+        std::cout << coord.z << std::endl;
     }
 
     return coords;
