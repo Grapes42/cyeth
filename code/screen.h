@@ -1,56 +1,45 @@
-#include <iostream>
-#include <vector>
-#include <map>
-#include <cmath>
-
 class Screen {
     public:
-        Screen(int h, int w, int min, int max);
-        void fill(char c);
+        Screen(int h, int w, double min, double max);
         void print();
-        void write(std::vector<Coord> coords, std::vector<char> chars);
+        void fill(char c);
+        void write(std::vector<Coord> coords, char c);
     private:
-        std::vector<std::vector<char>> arr;
+        std::vector<std::vector<char>> vec;
         int height;
         int width;
-        int min_depth;
-        int max_depth;
+        double min_depth;
+        double max_depth;
 };
 
-Screen::Screen(int h, int w, int min, int max) {
+Screen::Screen(int h, int w, double min, double max) {
     height = h;
     width = w;
     min_depth = min;
     max_depth = max;
 
-    arr.resize(height, std::vector<char>(width, ' '));
-}
-
-void Screen::fill(char c) {
-    for (int y=0; y<height; y++) {
-        for (int x=0; x<width; x++) {
-            arr[y][x] = c;
-        }
-    }
+    vec.resize(height, std::vector<char>(width, ' '));
 }
 
 void Screen::print() {
-    for (int y=0; y<height; y++) {
-        for (int x=0; x<width; x++) {
-            std::cout << arr[y][x];
+    for (int y=0; y<height; ++y) {
+        for (int x=0; x<height; ++x) {
+            std::cout << vec[y][x];
         }
         std::cout << std::endl;
     }
 }
 
-void Screen::write(std::vector<Coord> coords, std::vector<char> chars) {
-    double depth_range = max_depth - min_depth;
-    double char_range = chars.size();
-    
-    double magic_num = char_range / depth_range;
+void Screen::fill(char c) {
+    for (int y=0; y<height; ++y) {
+        for (int x=0; x<height; ++x) {
+            vec[y][x] = c;
+        }
+    }
+}
 
+void Screen::write(std::vector<Coord> coords, char c) {
     for (Coord coord : coords) {
-        int z = round(magic_num * coord.z - min_depth);
-        arr[coord.y][coord.x] = chars[z];
+        vec[coord.points[y]][coord.points[x]] = c;
     }
 }
