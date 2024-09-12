@@ -1,29 +1,25 @@
 #include <iostream>
 
-void order_first(int &a, int &b) {
-    if (a > b) {
-        int a_old = a;
-        int b_old = b;
-
-        a = b_old;
-        b = a_old;
-    }
-}
+struct Coord {
+    double points[4] = {0, 0, 0, 0};
+    double &y = points[0];
+    double &x = points[1];
+    double &z = points[2];
+    double &w = points[3];
+};
 
 int main() {
-    int a = 1;
-    int b = 2;
+    Coord coord;
 
-    order_first(a, b);
+    for (int i=0; i<4; ++i) {
+        coord.points[i]++;
+    };
 
-    std::cout << "a: " << a << std::endl
-              << "b: " << b << std::endl;
+    coord.z++;
 
-    a = 2;
-    b = 1;
+    for (int i=0; i<4; ++i) {
+        std::cout << coord.points[i];
+    }
 
-    order_first(a, b);
-
-    std::cout << "a: " << a << std::endl
-              << "b: " << b << std::endl;
+    std::cout << std::endl << coord.y << coord.x << coord.z << coord.w;
 }

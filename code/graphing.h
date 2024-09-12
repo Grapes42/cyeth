@@ -1,18 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <cmath>
-
-struct Coord {
-    double y = 0;
-    double x = 0;
-    double z = 0;
-};
-
-enum Axis {
-    y,
-    x
-};
-
 class Graphing {
     private:
         void add_coord(std::vector<Coord> &coords, Coord pos);
@@ -28,7 +13,7 @@ Graphing::Graphing(int height, int width) {
 }
 
 void Graphing::add_coord(std::vector<Coord> &coords, Coord pos) {
-    Coord rounded = {round(pos.y), round(pos.x), round(pos.z)};
+    Coord rounded(round(pos.y), round(pos.x), round(pos.z), round(pos.w));
     coords.push_back(rounded);
 }
 
@@ -49,8 +34,8 @@ void Graphing::order_first(Coord &a, Coord &b, Axis axis) {
 
     if (swap) {
         Coord old_a = a;
-        a = b;
-        b = old_a;
+        a.points = b.points;
+        b.points = old_a.points;
     }
 }
 
@@ -60,10 +45,13 @@ std::vector<Coord> Graphing::line(Coord a, Coord b, double step_size) {
 
     std::vector<Coord> coords;
 
+    // If gradient wont result in 0 division
+    // I.e. if not a perfectly vertical line
     if (run != 0) {
         double gradient = rise/run;
         double grad_abs = abs(gradient);
 
+        // If line is 45 degrees or shallower
         if (grad_abs <= 1) {
             order_first(a, b, x);
 
@@ -73,6 +61,7 @@ std::vector<Coord> Graphing::line(Coord a, Coord b, double step_size) {
                 a.y += step_size * gradient;
             }
         }
+        // If line is steeper than 45 degrees
         else {
             order_first(a, b, y);
 
@@ -83,6 +72,8 @@ std::vector<Coord> Graphing::line(Coord a, Coord b, double step_size) {
             }
         }
     }
+    // If gradient will result in 0 division
+    // I.e. if a perfectly vertical line
     else {
         order_first(a, b, y);
 

@@ -48,11 +48,9 @@ void Screen::write(std::vector<Coord> coords, std::vector<char> chars) {
     double char_range = chars.size();
     
     double magic_num = char_range / depth_range;
-    std::cout << "magic num: " << magic_num << std::endl;
 
     for (Coord coord : coords) {
         int z = round(magic_num * coord.z - min_depth);
-        std::cout << "z" << z << std::endl;
         arr[coord.y][coord.x] = chars[z];
     }
 }
