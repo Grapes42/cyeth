@@ -1,5 +1,5 @@
 struct Coord {
-    std::array<double, 4> points;
+    std::array<double, 4> points = {0, 0, 0, 1};
 };
 
 enum Axis {

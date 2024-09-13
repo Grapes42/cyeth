@@ -4,9 +4,11 @@
 #include <cmath>
 
 #include "data_types.h"
+#include "projection.h"
 #include "object_3d.h"
 #include "graphing.h"
 #include "screen.h"
+#include "shapes.h"
 
 int main() {
     int height = 20;
@@ -21,12 +23,8 @@ int main() {
     Graphing graphing;
     Screen screen(height, width, min, max);
 
-    screen.print();
-
-    Coord a = {0, 0, 0, 1};
-    Coord b = {10, 10, 0, 1};
-
-    coords = graphing.line(a, b, .2);
+    Coord center = {5, 5, 5, 1};
+    coords = cube(center, 5, 5, 5);
 
     screen.write(coords, '3');
 
