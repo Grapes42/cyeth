@@ -10,6 +10,8 @@ class Screen {
         int width;
         double min_depth;
         double max_depth;
+        int y_offset;
+        int x_offset;
 };
 
 Screen::Screen(int h, int w, double min, double max) {
@@ -17,6 +19,9 @@ Screen::Screen(int h, int w, double min, double max) {
     width = w;
     min_depth = min;
     max_depth = max;
+
+    y_offset = height/2;
+    x_offset = width/2;
 
     vec.resize(height, std::vector<char>(width, ' '));
 }
@@ -40,6 +45,6 @@ void Screen::fill(char c) {
 
 void Screen::write(std::vector<Coord> coords, char c) {
     for (Coord coord : coords) {
-        vec[coord.points[y]][coord.points[x]] = c;
+        vec[coord.points[y]+y_offset][coord.points[x]+x_offset] = c;
     }
 }

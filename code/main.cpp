@@ -23,7 +23,7 @@ int main() {
     Graphing graphing;
     Screen screen(height, width, min, max);
 
-    Coord center = {5, 5, 5, 1};
+    Coord center;
     coords = cube(center, 5, 5, 5);
 
     screen.write(coords, '3');
